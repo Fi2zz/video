@@ -179,11 +179,14 @@
           children.map(function (child) {
             child.style.width = width + "px";
           });
-
           video_container.onclick = function () {
-            player.play();
-            play.setAttribute("hidden", "hidden");
-            // this.style.display = "none";
+            if (player.paused) {
+              player.play();
+              play.setAttribute("hidden", "hidden");
+            } else {
+              play.removeAttribute("hidden");
+              player.pause();
+            }
           };
 
           function slide() {
