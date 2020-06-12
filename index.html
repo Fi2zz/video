@@ -74,7 +74,7 @@
     </style>
   </head>
   <body>
-    <div class="banner">
+    <div class="banner" id="banner" style="visibility: hidden;">
       <div class="scroll" id="scroll">
         <div class="video" id="video">
           <video
@@ -143,6 +143,7 @@
     <script>
       window.onload = function () {
         function banner() {
+          document.getElementById("banner").style.visibility = "visible";
           var video_container = document.getElementById("video");
 
           var video = document.getElementById("player");
