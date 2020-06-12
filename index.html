@@ -179,13 +179,22 @@
           children.map(function (child) {
             child.style.width = width + "px";
           });
+
+          function player_pause() {
+            play.removeAttribute("hidden");
+            player.pause();
+          }
+
+          function player_play() {
+            player.play();
+            play.setAttribute("hidden", "hidden");
+          }
+
           video_container.onclick = function () {
             if (player.paused) {
-              player.play();
-              play.setAttribute("hidden", "hidden");
+              player_play();
             } else {
-              play.removeAttribute("hidden");
-              player.pause();
+              player_pause();
             }
           };
 
@@ -233,6 +242,15 @@
             };
           }
           slide();
+          document.body.addEventListener(
+            "scroll",
+            function () {
+              if (!player.paused) {
+                player_pause();
+              }
+            },
+            false
+          );
         }
 
         banner();
