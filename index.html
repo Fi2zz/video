@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+    />
+    <link rel="stylesheet" href="./css.css" />
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      .banner {
+        position: relative;
+      }
+
+      .banner .scroll {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        height: 56.25vw;
+      }
+      .banner .video,
+      .banner .image {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .video video {
+        height: 56.25vw;
+        display: block;
+      }
+      .image {
+        background-size: cover;
+      }
+      .controller {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 60px;
+        height: 44px;
+        z-index: 9;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+      }
+
+      .controller[disabled] {
+        opacity: 0;
+      }
+      .controller#prev {
+        left: 0;
+      }
+      .controller#next {
+        right: 0;
+      }
+      #image1 {
+        background-image: url(./img1.jpg);
+      }
+      #image2 {
+        background-image: url(./img2.jpg);
+      }
+      #image3 {
+        background-image: url(./img3.jpg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <div class="scroll" id="scroll">
+        <div class="video" id="video">
+          <video
+            id="player"
+            src="https://exoss.oss-cn-shenzhen.aliyuncs.com/v2/dev/video/homepage/RundefinedsOP-4pCBZFS+Video+Service+36sec+no+Super+20190919+1.mp4"
+            controls
+          >
+          </video>
+        </div>
+        <div class="image" id="image1"> </div>
+        <div class="image" id="image2"> </div>
+        <div class="image" id="image3"> </div>
+      </div>
+      <button class="controller" id="prev">PREV</button>
+      <button class="controller" id="next">NEXT</button>
+    </div>
+    <div class="heading">What is lorem Ipsum? </div>
+    <div class="content">
+      Why do we use it?There is no denying that when readers are browsing the
+      layout of a page, * they will inevitably be distracted by the readable
+      content. The purpose of lorem Ipsum is to * maintain more or less standard
+      and average distribution of letters, rather than "text here, * text here",
+      so that the content is more like readable English. Nowadays, many desktop
+      typesetting software and web page editors use lorem Ipsum as the default
+      model text, and search "lorem Ipsum" to find the prototype of these
+      websites. Over the years, lorem Ipsum has evolved into various versions,
+      some by accident, some on purpose (deliberate humor, etc.).
+    </div>
+
+    <div class="collapsable active">
+      <div class="heading">
+        How To Redeem
+      </div>
+      <div class="content">
+        Why do we use it?There is no denying that when readers are browsing the
+        layout of a page, * they will inevitably be distracted by the readable
+        content. The purpose of lorem Ipsum is to * maintain more or less
+        standard and average distribution of letters, rather than "text here, *
+        text here", so that the content is more like readable English. Nowadays,
+        many desktop typesetting software and web page editors use lorem Ipsum
+        as the default model text, and search "lorem Ipsum" to find the
+        prototype of these websites. Over the years, lorem Ipsum has evolved
+        into various versions, some by accident, some on purpose (deliberate
+        humor, etc.).
+      </div>
+    </div>
+    <div class="collapsable terms active">
+      <div class="heading">
+        <span>
+          Terms Conditions
+        </span>
+      </div>
+      <div class="content">
+        Why do we use it?There is no denying that when readers are browsing the
+        layout of a page, * they will inevitably be distracted by the readable
+        content. The purpose of lorem Ipsum is to * maintain more or less
+        standard and average distribution of letters, rather than "text here, *
+        text here", so that the content is more like readable English. Nowadays,
+        many desktop typesetting software and web page editors use lorem Ipsum
+        as the default model text, and search "lorem Ipsum" to find the
+        prototype of these websites. Over the years, lorem Ipsum has evolved
+        into various versions, some by accident, some on purpose (deliberate
+        humor, etc.).
+      </div>
+    </div>
+    <script>
+      window.onload = function () {
+        function banner() {
+          var video_container = document.getElementById("video");
+
+          var video = document.getElementById("player");
+          var img1 = document.getElementById("image1");
+          var img2 = document.getElementById("image2");
+          var img3 = document.getElementById("image3");
+
+          var width = window.screen.width;
+          var scroll = document.getElementById("scroll");
+          var _children = scroll.children;
+
+          var children = Array.prototype.slice.call(_children);
+          scroll.style.width = children.length * width + "px";
+          children.map(function (child) {
+            child.style.width = width + "px";
+          });
+
+          function slide() {
+            var currentIndex = 0;
+            var currentPosition = 0;
+
+            var prev = document.getElementById("prev");
+            var next = document.getElementById("next");
+
+            disabledPrev();
+            function disabledPrev() {
+              if (currentIndex <= 0) {
+                prev.setAttribute("disabled", "disabled");
+              }
+              next.removeAttribute("disabled");
+            }
+            function disabledNext() {
+              prev.removeAttribute("disabled");
+              if (currentIndex >= children.length - 1) {
+                next.setAttribute("disabled", "disabled");
+              }
+            }
+            prev.onclick = function () {
+              currentIndex -= 1;
+              disabledPrev();
+              var position = width * currentIndex;
+              if (currentPosition < 0) {
+                position *= -1;
+              }
+              currentPosition = position;
+              scroll.style.transform = "translateX(" + position + "px)";
+            };
+            next.onclick = function () {
+              currentIndex += 1;
+              disabledNext();
+              player.pause();
+              currentPosition = width * currentIndex * -1;
+              scroll.style.transform = "translateX(" + currentPosition + "px)";
+            };
+          }
+          slide();
+        }
+
+        banner();
+
+        function hasClass(el, className) {
+          var reg = new RegExp("(^|\\s)" + className + "(\\s|$)");
+          return reg.test(el.className);
+        }
+        function addClass(el, className) {
+          if (hasClass(el, className)) {
+            return;
+          }
+          var newClass = el.className.split(" ");
+          newClass.push(className);
+          el.className = newClass.join(" ");
+        }
+        function removeClass(el, className) {
+          if (!hasClass(el, className)) {
+            return;
+          }
+          var reg = new RegExp("(^|\\s)" + className + "(\\s|$)", "g");
+          el.className = el.className.replace(reg, " ").trim();
+        }
+        var collapsables = document.getElementsByClassName("collapsable");
+        [].forEach.call(collapsables, function (collapsable) {
+          collapsable.addEventListener("click", function () {
+            if (hasClass(this, "active")) {
+              removeClass(this, "active");
+            } else {
+              addClass(this, "active");
+              this.scrollIntoView({ block: "start", behavior: "smooth" });
+            }
+          });
+        });
+      };
+    </script>
+  </body>
+</html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      https://exoss.oss-cn-shenzhen.aliyuncs.com/v2/dev/video/homepage/RundefinedsOP-4pCBZFS+Video+Service+36sec+no+Super+20190919+1.mp4
+    </div>
+  </body>
+</html>
